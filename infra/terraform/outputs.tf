@@ -22,3 +22,13 @@ output "notifications_topic_arn" {
   description = "ARN of the SNS notifications topic"
   value       = aws_sns_topic.notifications.arn
 }
+
+output "cognito_user_pool_id" {
+  description = "ID of the Cognito User Pool"
+  value       = aws_cognito_user_pool.main.id
+}
+
+output "cognito_user_pool_client_id" {
+  description = "ID of the Cognito User Pool Client"
+  value       = aws_cognito_user_pool_client.frontend.id
+}

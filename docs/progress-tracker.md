@@ -24,3 +24,21 @@
 - [x] Define Lambda environment variables
 - [x] Create Terraform starter files
 
+## Phase 2 — Core AWS Resources
+- [x] Create S3 document bucket
+- [x] Enable S3 public access block
+- [x] Enable S3 versioning
+- [x] Enable S3 server-side encryption
+- [x] Create DynamoDB submissions table
+- [x] Create SNS notifications topic
+- [x] Deploy resources with Terraform
+- [x] Verify resources in AWS Console
+
+## Phase 3 — Authentication with Cognito
+- [x] Create Cognito User Pool
+- [x] Create Cognito User Pool Client
+- [x] Create supplier group
+- [x] Create reviewer group
+- [x] Deploy Cognito resources with Terraform
+- [x] Verify Cognito resources in AWS Console
+
