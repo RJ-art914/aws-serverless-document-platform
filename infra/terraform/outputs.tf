@@ -32,3 +32,13 @@ output "cognito_user_pool_client_id" {
   description = "ID of the Cognito User Pool Client"
   value       = aws_cognito_user_pool_client.frontend.id
 }
+
+output "lambda_function_name" {
+  description = "Name of the API Lambda function"
+  value       = aws_lambda_function.api.function_name
+}
+
+output "lambda_function_arn" {
+  description = "ARN of the API Lambda function"
+  value       = aws_lambda_function.api.arn
+}

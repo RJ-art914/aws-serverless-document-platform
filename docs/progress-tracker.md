@@ -42,3 +42,13 @@
 - [x] Deploy Cognito resources with Terraform
 - [x] Verify Cognito resources in AWS Console
 
+## Phase 4 — Lambda and IAM
+- [x] Create initial Python Lambda handler
+- [x] Package Lambda deployment artifact
+- [x] Create IAM assume-role policy
+- [x] Create Lambda execution role
+- [x] Grant Lambda access to S3, DynamoDB, SNS, and CloudWatch Logs
+- [x] Deploy Lambda with Terraform
+- [x] Verify Lambda and IAM resources in AWS Console
+- [x] Test Lambda successfully
+
