@@ -14,13 +14,13 @@
 - [x] Push initial structure to GitHub
 
 ## Phase 1 — MVP and Functional Design
-- [ ] Finalize MVP scope
-- [ ] Define user roles and flows
-- [ ] Define API endpoints
-- [ ] Define submission status values
-- [ ] Define DynamoDB schema
-- [ ] Define Cognito groups
-- [ ] Define Lambda responsibilities
-- [ ] Define Lambda environment variables
-- [ ] Create Terraform starter files
+- [x] Finalize MVP scope
+- [x] Define user roles and flows
+- [x] Define API endpoints
+- [x] Define submission status values
+- [x] Define DynamoDB schema
+- [x] Define Cognito groups
+- [x] Define Lambda responsibilities
+- [x] Define Lambda environment variables
+- [x] Create Terraform starter files
 
