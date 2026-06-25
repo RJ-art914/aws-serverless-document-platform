@@ -76,3 +76,16 @@
 - [x] Test submission retrieval
 - [x] Test submission status update
 
+## Phase 7 — Cognito Authentication for API
+- [x] Add Cognito User Pool domain
+- [x] Add API Gateway JWT authorizer
+- [x] Protect business API routes with JWT auth
+- [x] Update Lambda to read identity from JWT claims
+- [x] Rebuild and redeploy Lambda
+- [x] Create test Cognito users
+- [x] Assign users to Cognito groups
+- [x] Authenticate with Cognito and obtain JWT tokens
+- [x] Test supplier access to protected API routes
+- [x] Test reviewer access to protected API routes
+- [x] Keep /health endpoint public
+

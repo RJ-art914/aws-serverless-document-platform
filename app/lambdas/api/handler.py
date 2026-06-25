@@ -39,14 +39,35 @@ def get_request_body(event):
 
 
 def get_request_identity(event):
-    headers = event.get("headers", {}) or {}
+    jwt_claims = (
+        event.get("requestContext", {})
+        .get("authorizer", {})
+        .get("jwt", {})
+        .get("claims", {})
+    )
+
+    groups = jwt_claims.get("cognito:groups", "")
+
+    if isinstance(groups, str):
+        cleaned_groups = groups.strip().strip("[]")
+        group_list = [group.strip() for group in cleaned_groups.split(",") if group.strip()]
+    elif isinstance(groups, list):
+        group_list = groups
+    else:
+        group_list = []
+
+    user_role = None
+    if "reviewer" in group_list:
+        user_role = "reviewer"
+    elif "supplier" in group_list:
+        user_role = "supplier"
 
     return {
-        "user_role": headers.get("x-user-role"),
-        "user_id": headers.get("x-user-id"),
-        "user_email": headers.get("x-user-email")
+        "user_role": user_role,
+        "user_id": jwt_claims.get("sub"),
+        "user_email": jwt_claims.get("email")
     }
-
+    }
 
 def require_role(identity, allowed_roles):
     if identity["user_role"] not in allowed_roles:

@@ -52,3 +52,8 @@ resource "aws_cognito_user_group" "reviewer" {
   description  = "Reviewers can view all submissions and update statuses"
 }
 
+resource "aws_cognito_user_pool_domain" "main" {
+  domain       = "${local.name_prefix}-auth"
+  user_pool_id = aws_cognito_user_pool.main.id
+}
+
