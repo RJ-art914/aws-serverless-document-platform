@@ -63,3 +63,16 @@
 - [x] Deploy API Gateway resources with Terraform
 - [x] Test health endpoint successfully
 
+## Phase 6 — Core API Functionality
+- [x] Implement POST /upload-url
+- [x] Implement GET /submissions
+- [x] Implement PATCH /submissions/{submission_id}/status
+- [x] Generate pre-signed S3 upload URLs
+- [x] Store submission metadata in DynamoDB
+- [x] Publish SNS notifications on new submission
+- [x] Add API Gateway routes for core endpoints
+- [x] Test upload URL generation
+- [x] Test direct S3 upload
+- [x] Test submission retrieval
+- [x] Test submission status update
+

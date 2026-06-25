@@ -20,6 +20,24 @@ resource "aws_apigatewayv2_route" "health" {
   target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
 }
 
+resource "aws_apigatewayv2_route" "upload_url" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "POST /upload-url"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
+resource "aws_apigatewayv2_route" "submissions_get" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /submissions"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
+resource "aws_apigatewayv2_route" "submission_status_patch" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "PATCH /submissions/{submission_id}/status"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.http_api.id
   name        = "$default"
