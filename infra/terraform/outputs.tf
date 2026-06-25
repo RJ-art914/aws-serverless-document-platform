@@ -42,3 +42,14 @@ output "lambda_function_arn" {
   description = "ARN of the API Lambda function"
   value       = aws_lambda_function.api.arn
 }
+
+output "api_gateway_url" {
+  description = "Base URL of the HTTP API"
+  value       = aws_apigatewayv2_api.http_api.api_endpoint
+}
+
+output "health_endpoint_url" {
+  description = "Health check endpoint URL"
+  value       = "${aws_apigatewayv2_api.http_api.api_endpoint}/health"
+}
+

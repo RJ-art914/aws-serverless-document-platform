@@ -52,3 +52,14 @@
 - [x] Verify Lambda and IAM resources in AWS Console
 - [x] Test Lambda successfully
 
+## Phase 5 — API Gateway
+- [x] Update Lambda to handle health endpoint
+- [x] Rebuild Lambda deployment package
+- [x] Create API Gateway HTTP API
+- [x] Create Lambda integration
+- [x] Create /health route
+- [x] Create default stage
+- [x] Grant API Gateway permission to invoke Lambda
+- [x] Deploy API Gateway resources with Terraform
+- [x] Test health endpoint successfully
+
