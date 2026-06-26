@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Serverless Document Platform</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>AWS Serverless Document Platform</h1>
+    <p class="subtitle">Frontend MVP</p>
+
+    <section class="card">
+      <h2>Authentication</h2>
+      <div class="button-row">
+        <button id="loginBtn">Login with Cognito</button>
+        <button id="logoutBtn">Logout</button>
+      </div>
+      <p><strong>Authentication status:</strong> <span id="authStatus">Not logged in</span></p>
+      <p><strong>User email:</strong> <span id="userEmail">-</span></p>
+      <p><strong>User groups:</strong> <span id="userGroups">-</span></p>
+    </section>
+
+    <section class="card">
+      <h2>Health Check</h2>
+      <button id="healthBtn">Check API Health</button>
+      <pre id="healthOutput">No health check run yet.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Authenticated API</h2>
+      <button id="loadSubmissionsBtn">Load My / Available Submissions</button>
+      <pre id="submissionsOutput">No submissions loaded yet.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Upload Document</h2>
+      <form id="uploadForm">
+        <label for="documentType">Document Type</label>
+        <input id="documentType" type="text" placeholder="e.g. Quality Certificate" required />
+
+        <label for="fileInput">Choose File</label>
+        <input id="fileInput" type="file" required />
+
+        <button type="submit">Upload Document</button>
+      </form>
+
+      <pre id="uploadOutput">No upload attempted yet.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Reviewer Status Update</h2>
+      <form id="statusForm">
+        <label for="submissionIdInput">Submission ID</label>
+        <input id="submissionIdInput" type="text" placeholder="Enter submission ID" required />
+
+        <label for="statusSelect">New Status</label>
+        <select id="statusSelect" required>
+          <option value="Received">Received</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+
+        <button type="submit">Update Status</button>
+      </form>
+
+      <pre id="statusOutput">No status update attempted yet.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Token Preview</h2>
+      <p>This is just for development/debugging.</p>
+      <pre id="tokenPreview">No token loaded.</pre>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

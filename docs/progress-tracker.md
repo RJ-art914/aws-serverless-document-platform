@@ -89,3 +89,22 @@
 - [x] Test reviewer access to protected API routes
 - [x] Keep /health endpoint public
 
+## Phase 8 — Frontend MVP Setup
+- [x] Enable Cognito Hosted UI login flow
+- [x] Add local callback and logout URLs
+- [x] Create static frontend files
+- [x] Load runtime config from config.json
+- [x] Implement login and logout buttons
+- [x] Parse Cognito tokens from URL fragment
+- [x] Display authenticated user info
+- [x] Call public health endpoint from browser
+- [x] Test login flow locally
+
+## Phase 9 — Frontend Core Functionality
+- [x] Add authenticated submissions loading
+- [x] Add upload form to frontend
+- [x] Add direct S3 upload from browser
+- [x] Add reviewer status update form
+- [x] Display API responses in the browser
+- [x] Test supplier submission flow in browser
+- [x] Test reviewer status update flow in browser

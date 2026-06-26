@@ -67,12 +67,10 @@ def get_request_identity(event):
         "user_id": jwt_claims.get("sub"),
         "user_email": jwt_claims.get("email")
     }
-    }
+
 
 def require_role(identity, allowed_roles):
-    if identity["user_role"] not in allowed_roles:
-        return False
-    return True
+    return identity["user_role"] in allowed_roles
 
 
 def handle_health():
