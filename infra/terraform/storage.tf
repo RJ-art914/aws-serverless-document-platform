@@ -33,6 +33,18 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "documents" {
   }
 }
 
+resource "aws_s3_bucket_cors_configuration" "documents" {
+  bucket = aws_s3_bucket.documents.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "GET", "HEAD"]
+    allowed_origins = ["http://127.0.0.1:5500"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+}
+
 resource "aws_dynamodb_table" "submissions" {
   name         = "${local.name_prefix}-submissions"
   billing_mode = "PAY_PER_REQUEST"

@@ -63,3 +63,12 @@ output "cognito_hosted_ui_base_url" {
   value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com"
 }
 
+output "cognito_login_url" {
+  description = "Hosted UI login URL"
+  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/login?client_id=${aws_cognito_user_pool_client.frontend.id}&response_type=token&scope=openid+email+profile&redirect_uri=http://127.0.0.1:5500/app/frontend/index.html"
+}
+
+output "cognito_logout_url" {
+  description = "Hosted UI logout URL"
+  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/logout?client_id=${aws_cognito_user_pool_client.frontend.id}&logout_uri=http://127.0.0.1:5500/app/frontend/index.html"
+}

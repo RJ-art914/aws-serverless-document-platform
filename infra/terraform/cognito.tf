@@ -38,6 +38,19 @@ resource "aws_cognito_user_pool_client" "frontend" {
   generate_secret = false
 
   prevent_user_existence_errors = "ENABLED"
+
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["implicit"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile"]
+  supported_identity_providers         = ["COGNITO"]
+
+  callback_urls = [
+    "http://127.0.0.1:5500/app/frontend/index.html"
+  ]
+
+  logout_urls = [
+    "http://127.0.0.1:5500/app/frontend/index.html"
+  ]
 }
 
 resource "aws_cognito_user_group" "supplier" {
