@@ -8,10 +8,12 @@ const authStatusEl = document.getElementById("authStatus");
 const userEmailEl = document.getElementById("userEmail");
 const userGroupsEl = document.getElementById("userGroups");
 const healthOutputEl = document.getElementById("healthOutput");
-const tokenPreviewEl = document.getElementById("tokenPreview");
-const submissionsOutputEl = document.getElementById("submissionsOutput");
 const uploadOutputEl = document.getElementById("uploadOutput");
 const statusOutputEl = document.getElementById("statusOutput");
+const submissionsEmptyStateEl = document.getElementById("submissionsEmptyState");
+const submissionsTableEl = document.getElementById("submissionsTable");
+const submissionsTableBodyEl = document.getElementById("submissionsTableBody");
+const reviewerSectionEl = document.getElementById("reviewerSection");
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -66,6 +68,23 @@ function getStoredIdToken() {
   return localStorage.getItem("id_token");
 }
 
+function getCurrentUserRole(payload) {
+  const groups = payload?.["cognito:groups"];
+
+  if (Array.isArray(groups)) {
+    if (groups.includes("reviewer")) return "reviewer";
+    if (groups.includes("supplier")) return "supplier";
+  } else if (typeof groups === "string") {
+    const cleaned = groups.replace("[", "").replace("]", "");
+    const splitGroups = cleaned.split(",").map(group => group.trim());
+
+    if (splitGroups.includes("reviewer")) return "reviewer";
+    if (splitGroups.includes("supplier")) return "supplier";
+  }
+
+  return null;
+}
+
 function updateAuthUi() {
   const idToken = getStoredIdToken();
 
@@ -73,7 +92,9 @@ function updateAuthUi() {
     authStatusEl.textContent = "Not logged in";
     userEmailEl.textContent = "-";
     userGroupsEl.textContent = "-";
-    tokenPreviewEl.textContent = "No token loaded.";
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    reviewerSectionEl.classList.add("hidden");
     return;
   }
 
@@ -83,23 +104,70 @@ function updateAuthUi() {
     authStatusEl.textContent = "Invalid token";
     userEmailEl.textContent = "-";
     userGroupsEl.textContent = "-";
-    tokenPreviewEl.textContent = "Token exists but could not be parsed.";
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    reviewerSectionEl.classList.add("hidden");
     return;
   }
 
+  const role = getCurrentUserRole(payload);
+
   authStatusEl.textContent = "Logged in";
   userEmailEl.textContent = payload.email || "-";
+  userGroupsEl.textContent = role || "-";
 
-  const groups = payload["cognito:groups"];
-  if (Array.isArray(groups)) {
-    userGroupsEl.textContent = groups.join(", ");
-  } else if (groups) {
-    userGroupsEl.textContent = groups;
+  loginBtn.classList.add("hidden");
+  logoutBtn.classList.remove("hidden");
+
+  if (role === "reviewer") {
+    reviewerSectionEl.classList.remove("hidden");
   } else {
-    userGroupsEl.textContent = "-";
+    reviewerSectionEl.classList.add("hidden");
+  }
+}
+
+function getStatusBadgeClass(status) {
+  switch (status) {
+    case "Received":
+      return "status-badge status-received";
+    case "Under Review":
+      return "status-badge status-under-review";
+    case "Approved":
+      return "status-badge status-approved";
+    case "Rejected":
+      return "status-badge status-rejected";
+    default:
+      return "status-badge";
+  }
+}
+
+function renderSubmissions(items) {
+  submissionsTableBodyEl.innerHTML = "";
+
+  if (!items || items.length === 0) {
+    submissionsTableEl.classList.add("hidden");
+    submissionsEmptyStateEl.classList.remove("hidden");
+    submissionsEmptyStateEl.textContent = "No submissions found.";
+    return;
   }
 
-  tokenPreviewEl.textContent = JSON.stringify(payload, null, 2);
+  submissionsEmptyStateEl.classList.add("hidden");
+  submissionsTableEl.classList.remove("hidden");
+
+  items.forEach(item => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${item.submission_id || "-"}</td>
+      <td>${item.file_name || "-"}</td>
+      <td>${item.document_type || "-"}</td>
+      <td><span class="${getStatusBadgeClass(item.status)}">${item.status || "-"}</span></td>
+      <td>${item.supplier_email || "-"}</td>
+      <td>${item.upload_timestamp || "-"}</td>
+    `;
+
+    submissionsTableBodyEl.appendChild(row);
+  });
 }
 
 async function checkHealth() {
@@ -116,7 +184,9 @@ async function loadSubmissions() {
   const idToken = getStoredIdToken();
 
   if (!idToken) {
-    submissionsOutputEl.textContent = "You must log in first.";
+    submissionsTableEl.classList.add("hidden");
+    submissionsEmptyStateEl.classList.remove("hidden");
+    submissionsEmptyStateEl.textContent = "You must log in first.";
     return;
   }
 
@@ -128,9 +198,19 @@ async function loadSubmissions() {
     });
 
     const data = await response.json();
-    submissionsOutputEl.textContent = JSON.stringify(data, null, 2);
+
+    if (!response.ok) {
+      submissionsTableEl.classList.add("hidden");
+      submissionsEmptyStateEl.classList.remove("hidden");
+      submissionsEmptyStateEl.textContent = data.message || "Failed to load submissions.";
+      return;
+    }
+
+    renderSubmissions(data.items || []);
   } catch (error) {
-    submissionsOutputEl.textContent = `Failed to load submissions: ${error.message}`;
+    submissionsTableEl.classList.add("hidden");
+    submissionsEmptyStateEl.classList.remove("hidden");
+    submissionsEmptyStateEl.textContent = `Failed to load submissions: ${error.message}`;
   }
 }
 
@@ -169,7 +249,7 @@ async function uploadDocument(event) {
     const uploadData = await response.json();
 
     if (!response.ok) {
-      uploadOutputEl.textContent = JSON.stringify(uploadData, null, 2);
+      uploadOutputEl.textContent = uploadData.message || "Failed to request upload URL.";
       return;
     }
 
@@ -185,12 +265,9 @@ async function uploadDocument(event) {
       return;
     }
 
-    uploadOutputEl.textContent = JSON.stringify({
-      message: "Upload completed successfully",
-      submission_id: uploadData.submission_id,
-      s3_key: uploadData.s3_key
-    }, null, 2);
+    uploadOutputEl.textContent = `Upload completed successfully. Submission ID: ${uploadData.submission_id}`;
 
+    uploadForm.reset();
     await loadSubmissions();
   } catch (error) {
     uploadOutputEl.textContent = `Upload failed: ${error.message}`;
@@ -225,8 +302,14 @@ async function updateStatus(event) {
     });
 
     const data = await response.json();
-    statusOutputEl.textContent = JSON.stringify(data, null, 2);
 
+    if (!response.ok) {
+      statusOutputEl.textContent = data.message || "Failed to update status.";
+      return;
+    }
+
+    statusOutputEl.textContent = `Submission ${submissionId} updated to "${status}".`;
+    statusForm.reset();
     await loadSubmissions();
   } catch (error) {
     statusOutputEl.textContent = `Status update failed: ${error.message}`;

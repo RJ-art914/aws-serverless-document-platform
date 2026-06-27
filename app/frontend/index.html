@@ -9,29 +9,23 @@
 <body>
   <div class="container">
     <h1>AWS Serverless Document Platform</h1>
-    <p class="subtitle">Frontend MVP</p>
+    <p class="subtitle">Secure Supplier Document Submission and Review</p>
 
     <section class="card">
       <h2>Authentication</h2>
       <div class="button-row">
-        <button id="loginBtn">Login with Cognito</button>
+        <button id="loginBtn">Login</button>
         <button id="logoutBtn">Logout</button>
       </div>
-      <p><strong>Authentication status:</strong> <span id="authStatus">Not logged in</span></p>
+      <p><strong>Status:</strong> <span id="authStatus">Not logged in</span></p>
       <p><strong>User email:</strong> <span id="userEmail">-</span></p>
-      <p><strong>User groups:</strong> <span id="userGroups">-</span></p>
+      <p><strong>Role:</strong> <span id="userGroups">-</span></p>
     </section>
 
     <section class="card">
-      <h2>Health Check</h2>
+      <h2>System Health</h2>
       <button id="healthBtn">Check API Health</button>
-      <pre id="healthOutput">No health check run yet.</pre>
-    </section>
-
-    <section class="card">
-      <h2>Authenticated API</h2>
-      <button id="loadSubmissionsBtn">Load My / Available Submissions</button>
-      <pre id="submissionsOutput">No submissions loaded yet.</pre>
+      <div id="healthOutput" class="message-box">No health check run yet.</div>
     </section>
 
     <section class="card">
@@ -46,10 +40,35 @@
         <button type="submit">Upload Document</button>
       </form>
 
-      <pre id="uploadOutput">No upload attempted yet.</pre>
+      <div id="uploadOutput" class="message-box">No upload attempted yet.</div>
     </section>
 
     <section class="card">
+      <h2>Submissions</h2>
+      <div class="button-row">
+        <button id="loadSubmissionsBtn">Refresh Submissions</button>
+      </div>
+
+      <div id="submissionsEmptyState" class="message-box">No submissions loaded yet.</div>
+
+      <div class="table-wrapper">
+        <table id="submissionsTable" class="hidden">
+          <thead>
+            <tr>
+              <th>Submission ID</th>
+              <th>File Name</th>
+              <th>Document Type</th>
+              <th>Status</th>
+              <th>Supplier Email</th>
+              <th>Uploaded At</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="reviewerSection" class="card hidden">
       <h2>Reviewer Status Update</h2>
       <form id="statusForm">
         <label for="submissionIdInput">Submission ID</label>
@@ -66,17 +85,10 @@
         <button type="submit">Update Status</button>
       </form>
 
-      <pre id="statusOutput">No status update attempted yet.</pre>
-    </section>
-
-    <section class="card">
-      <h2>Token Preview</h2>
-      <p>This is just for development/debugging.</p>
-      <pre id="tokenPreview">No token loaded.</pre>
+      <div id="statusOutput" class="message-box">No status update attempted yet.</div>
     </section>
   </div>
 
   <script src="app.js"></script>
 </body>
 </html>
-

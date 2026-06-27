@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 40px auto;
   padding: 20px;
 }
@@ -33,6 +33,7 @@ h1 {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 button {
@@ -49,16 +50,6 @@ button:hover {
   background: #1d4ed8;
 }
 
-pre {
-  background: #111827;
-  color: #f9fafb;
-  padding: 12px;
-  border-radius: 8px;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -69,4 +60,68 @@ input,
 select {
   padding: 10px;
   font-size: 14px;
+}
+
+.message-box {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-top: 12px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+th,
+td {
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f3f4f6;
+}
+
+.hidden {
+  display: none;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-received {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-under-review {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #991b1b;
 }
