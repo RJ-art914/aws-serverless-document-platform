@@ -14,6 +14,7 @@ const submissionsEmptyStateEl = document.getElementById("submissionsEmptyState")
 const submissionsTableEl = document.getElementById("submissionsTable");
 const submissionsTableBodyEl = document.getElementById("submissionsTableBody");
 const reviewerSectionEl = document.getElementById("reviewerSection");
+const uploadSectionEl = document.getElementById("uploadSection");
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -95,6 +96,7 @@ function updateAuthUi() {
     loginBtn.classList.remove("hidden");
     logoutBtn.classList.add("hidden");
     reviewerSectionEl.classList.add("hidden");
+    uploadSectionEl.classList.add("hidden");
     return;
   }
 
@@ -107,6 +109,7 @@ function updateAuthUi() {
     loginBtn.classList.remove("hidden");
     logoutBtn.classList.add("hidden");
     reviewerSectionEl.classList.add("hidden");
+    uploadSectionEl.classList.add("hidden");
     return;
   }
 
@@ -121,8 +124,13 @@ function updateAuthUi() {
 
   if (role === "reviewer") {
     reviewerSectionEl.classList.remove("hidden");
+    uploadSectionEl.classList.add("hidden");
+  } else if (role === "supplier") {
+    reviewerSectionEl.classList.add("hidden");
+    uploadSectionEl.classList.remove("hidden");
   } else {
     reviewerSectionEl.classList.add("hidden");
+    uploadSectionEl.classList.add("hidden");
   }
 }
 

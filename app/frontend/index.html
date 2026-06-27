@@ -23,25 +23,25 @@
     </section>
 
     <section class="card">
-      <h2>System Health</h2>
-      <button id="healthBtn">Check API Health</button>
+      <h2>Platform Status</h2>
+<button id="healthBtn">Check Status</button>
       <div id="healthOutput" class="message-box">No health check run yet.</div>
     </section>
 
-    <section class="card">
-      <h2>Upload Document</h2>
-      <form id="uploadForm">
-        <label for="documentType">Document Type</label>
-        <input id="documentType" type="text" placeholder="e.g. Quality Certificate" required />
+   <section id="uploadSection" class="card hidden">
+  <h2>Upload Document</h2>
+  <form id="uploadForm">
+    <label for="documentType">Document Type</label>
+    <input id="documentType" type="text" placeholder="e.g. Quality Certificate" required />
 
-        <label for="fileInput">Choose File</label>
-        <input id="fileInput" type="file" required />
+    <label for="fileInput">Choose File</label>
+    <input id="fileInput" type="file" required />
 
-        <button type="submit">Upload Document</button>
-      </form>
+    <button type="submit">Upload Document</button>
+  </form>
 
-      <div id="uploadOutput" class="message-box">No upload attempted yet.</div>
-    </section>
+  <div id="uploadOutput" class="message-box">No upload attempted yet.</div>
+</section>
 
     <section class="card">
       <h2>Submissions</h2>
