@@ -64,11 +64,26 @@ output "cognito_hosted_ui_base_url" {
 }
 
 output "cognito_login_url" {
-  description = "Hosted UI login URL"
-  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/login?client_id=${aws_cognito_user_pool_client.frontend.id}&response_type=token&scope=openid+email+profile&redirect_uri=http://127.0.0.1:5500/app/frontend/index.html"
+  description = "Hosted UI login URL for deployed frontend"
+  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/login?client_id=${aws_cognito_user_pool_client.frontend.id}&response_type=token&scope=openid+email+profile&redirect_uri=https://${aws_cloudfront_distribution.frontend.domain_name}"
 }
 
 output "cognito_logout_url" {
-  description = "Hosted UI logout URL"
-  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/logout?client_id=${aws_cognito_user_pool_client.frontend.id}&logout_uri=http://127.0.0.1:5500/app/frontend/index.html"
+  description = "Hosted UI logout URL for deployed frontend"
+  value       = "https://${aws_cognito_user_pool_domain.main.domain}.auth.${var.aws_region}.amazoncognito.com/logout?client_id=${aws_cognito_user_pool_client.frontend.id}&logout_uri=https://${aws_cloudfront_distribution.frontend.domain_name}"
+}
+
+output "frontend_bucket_name" {
+  description = "Name of the frontend hosting bucket"
+  value       = aws_s3_bucket.frontend.bucket
+}
+
+output "frontend_website_url" {
+  description = "S3 static website URL for the frontend"
+  value       = aws_s3_bucket_website_configuration.frontend.website_endpoint
+}
+
+output "frontend_cloudfront_domain_name" {
+  description = "CloudFront domain name for the frontend"
+  value       = aws_cloudfront_distribution.frontend.domain_name
 }

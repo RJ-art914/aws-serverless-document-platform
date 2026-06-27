@@ -1,4 +1,4 @@
 {
-  "cognitoLoginUrl": "https://doc-platform-dev-auth.auth.eu-central-1.amazoncognito.com/login?client_id=66n6op8u3l2i1jicj2kaqdibjf&response_type=token&scope=openid+email+profile&redirect_uri=http://127.0.0.1:5500/app/frontend/index.html",
-  "cognitoLogoutUrl": "https://doc-platform-dev-auth.auth.eu-central-1.amazoncognito.com/logout?client_id=66n6op8u3l2i1jicj2kaqdibjf&logout_uri=http://127.0.0.1:5500/app/frontend/index.html"
+  "cognitoLoginUrl": "https://doc-platform-dev-auth.auth.eu-central-1.amazoncognito.com/login?client_id=66n6op8u3l2i1jicj2kaqdibjf&response_type=token&scope=openid+email+profile&redirect_uri=https://d1mzzed6fl5bj0.cloudfront.net",
+  "cognitoLogoutUrl": "https://doc-platform-dev-auth.auth.eu-central-1.amazoncognito.com/logout?client_id=66n6op8u3l2i1jicj2kaqdibjf&logout_uri=https://d1mzzed6fl5bj0.cloudfront.net"
 }

@@ -45,11 +45,13 @@ resource "aws_cognito_user_pool_client" "frontend" {
   supported_identity_providers         = ["COGNITO"]
 
   callback_urls = [
-    "http://127.0.0.1:5500/app/frontend/index.html"
+    "http://127.0.0.1:5500/app/frontend/index.html",
+    "https://${aws_cloudfront_distribution.frontend.domain_name}"
   ]
 
   logout_urls = [
-    "http://127.0.0.1:5500/app/frontend/index.html"
+    "http://127.0.0.1:5500/app/frontend/index.html",
+    "https://${aws_cloudfront_distribution.frontend.domain_name}"
   ]
 }
 

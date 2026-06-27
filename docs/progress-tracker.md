@@ -108,3 +108,14 @@
 - [x] Display API responses in the browser
 - [x] Test supplier submission flow in browser
 - [x] Test reviewer status update flow in browser
+
+## Phase 10 — Frontend Deployment
+- [x] Create S3 frontend hosting bucket
+- [x] Configure S3 static website hosting
+- [x] Add CloudFront distribution for HTTPS frontend delivery
+- [x] Update API CORS for local and deployed frontend origins
+- [x] Update documents bucket CORS for local and deployed frontend origins
+- [x] Update Cognito callback and logout URLs for CloudFront
+- [x] Upload frontend files to S3
+- [x] Test deployed frontend via CloudFront
+
