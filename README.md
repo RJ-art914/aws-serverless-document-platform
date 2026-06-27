@@ -131,190 +131,202 @@ The implemented solution follows a serverless AWS architecture:
 │       ├── terraform.tfvars.example
 │       └── variables.tf
 └── README.md
+```
 
+---
 
+## Authentication and Authorization Model
 
-Authentication and Authorization Model
+The platform uses **Amazon Cognito** with two groups:
 
-The platform uses Amazon Cognito with two groups:
+- **supplier**
+- **reviewer**
 
-supplier
-reviewer
-
-Supplier
-
+### Supplier
 Can:
-
-upload documents
-view own submissions
+- upload documents
+- view own submissions
 
 Cannot:
+- view all submissions
+- update statuses
 
-view all submissions
-update statuses
-
-Reviewer
-
+### Reviewer
 Can:
-
-view all submissions
-update submission statuses
+- view all submissions
+- update submission statuses
 
 Cannot:
+- use supplier upload workflow
 
-use supplier upload workflow
+API Gateway protects business routes with a **JWT authorizer**, and Lambda reads user identity and group membership from the validated token claims.
 
-API Gateway protects business routes with a JWT authorizer, and Lambda reads user identity and group membership from the validated token claims.
+---
 
-API Endpoints
+## API Endpoints
 
-MethodRoutePurposeAccessGET/healthBasic platform health checkPublicPOST/upload-urlGenerate pre-signed S3 upload URL and create submission metadataSupplierGET/submissionsRetrieve submissions visible to the current userSupplier / ReviewerPATCH/submissions/{submission_id}/statusUpdate submission statusReviewer
+| Method | Route | Purpose | Access |
+|---|---|---|---|
+| `GET` | `/health` | Basic platform health check | Public |
+| `POST` | `/upload-url` | Generate pre-signed S3 upload URL and create submission metadata | Supplier |
+| `GET` | `/submissions` | Retrieve submissions visible to the current user | Supplier / Reviewer |
+| `PATCH` | `/submissions/{submission_id}/status` | Update submission status | Reviewer |
 
-Deployment Model
-Infrastructure
+---
 
+## Deployment Model
+
+### Infrastructure
 All AWS resources are provisioned with Terraform.
 
-Frontend deployment
-
+### Frontend deployment
 The frontend files are uploaded to an S3 bucket and delivered through CloudFront.
 
-Region
-
+### Region
 This implementation is deployed in:
 
-eu-central-1 (Frankfurt)
+- **eu-central-1** (Frankfurt)
 
-Local Development Notes
+---
+
+## Local Development Notes
 
 During development, the frontend was also tested locally using a lightweight local server.
 
 For local login testing, Cognito callback/logout URLs were configured for:
 
-http://127.0.0.1:5500/app/frontend/index.html
+- `http://127.0.0.1:5500/app/frontend/index.html`
 
 For deployed login testing, Cognito callback/logout URLs were configured for the CloudFront HTTPS domain.
 
-Screenshots
+---
+
+## Screenshots
 
 Add screenshots here once you capture them.
 
 Recommended screenshots:
-
-Login screen via Cognito Hosted UI
-Supplier view with upload form and submissions table
-Reviewer view with status update form
-Successful upload message
-AWS Console resources overview
-Terraform apply output or architecture view
+1. Login screen via Cognito Hosted UI
+2. Supplier view with upload form and submissions table
+3. Reviewer view with status update form
+4. Successful upload message
+5. AWS Console resources overview
+6. CloudFront-hosted frontend
 
 Example section structure:
 
-Supplier View
+### Supplier View
+`docs/screenshots/supplier-view.png`
 
-docs/screenshots/supplier-view.png
+### Reviewer View
+`docs/screenshots/reviewer-view.png`
 
-Reviewer View
+### CloudFront-Hosted Frontend
+`docs/screenshots/deployed-frontend.png`
 
-docs/screenshots/reviewer-view.png
+---
 
-CloudFront-Hosted Frontend
+## Key Implementation Decisions
 
-docs/screenshots/deployed-frontend.png
-
-Key Implementation Decisions
-1. Serverless architecture
-
+### 1. Serverless architecture
 The backend uses API Gateway, Lambda, DynamoDB, and S3 to minimize infrastructure management and align with the project’s cloud-native goal.
 
-2. Pre-signed S3 uploads
-
+### 2. Pre-signed S3 uploads
 Files are uploaded directly from browser to S3 instead of passing through Lambda, reducing backend load and avoiding unnecessary payload handling.
 
-3. Cognito for authentication
-
+### 3. Cognito for authentication
 Amazon Cognito provides managed authentication, JWT issuance, and group-based role separation without building a custom auth system.
 
-4. DynamoDB for metadata
-
+### 4. DynamoDB for metadata
 Submission records are stored separately from document files, keeping metadata queries efficient and the storage design simple.
 
-5. CloudFront for deployed frontend
-
+### 5. CloudFront for deployed frontend
 CloudFront provides HTTPS delivery for the frontend and enables a Cognito-compatible hosted UI callback URL.
 
-Known Limitations
+---
+
+## Known Limitations
 
 This implementation is intentionally scoped as an MVP / portfolio project.
 
 Current limitations include:
 
-no custom domain
-no WAF in front of CloudFront
-no full admin UI
-no S3 event-based upload confirmation workflow
-metadata is created when upload URL is requested rather than after confirmed upload completion
-no CI/CD pipeline yet
-no multi-region disaster recovery
-minimal visual UI polish beyond MVP usability
+- no custom domain
+- no WAF in front of CloudFront
+- no full admin UI
+- no S3 event-based upload confirmation workflow
+- metadata is created when upload URL is requested rather than after confirmed upload completion
+- no CI/CD pipeline yet
+- no multi-region disaster recovery
+- minimal visual UI polish beyond MVP usability
 
-Future Improvements
+---
+
+## Future Improvements
 
 Potential next steps include:
 
-add AWS WAF in front of CloudFront
-use private S3 frontend bucket with CloudFront Origin Access Control
-add custom domain with Route 53 and ACM
-add CI/CD pipeline for Terraform and frontend deployment
-improve UI with sorting/filtering and clearer status views
-trigger metadata finalization from S3 upload events
-add structured logging and more CloudWatch alarms
-replace SNS email with SES-based formatted notifications
-add document download links for reviewers
-add audit-focused reporting and dashboards
+- add AWS WAF in front of CloudFront
+- use private S3 frontend bucket with CloudFront Origin Access Control
+- add custom domain with Route 53 and ACM
+- add CI/CD pipeline for Terraform and frontend deployment
+- improve UI with sorting/filtering and clearer status views
+- trigger metadata finalization from S3 upload events
+- add structured logging and more CloudWatch alarms
+- replace SNS email with SES-based formatted notifications
+- add document download links for reviewers
+- add audit-focused reporting and dashboards
 
-What I Learned
+---
+
+## What I Learned
 
 This project helped me practice and demonstrate hands-on skills in:
 
-designing and provisioning AWS serverless infrastructure with Terraform
-integrating Cognito authentication with API Gateway JWT authorization
-implementing direct browser-to-S3 uploads with pre-signed URLs
-separating document binary storage from metadata storage
-managing CORS across API Gateway, S3, CloudFront, and browser clients
-debugging Terraform, Lambda runtime issues, Cognito flows, and frontend integration
-turning a conceptual architecture into a working cloud application
+- designing and provisioning AWS serverless infrastructure with Terraform
+- integrating Cognito authentication with API Gateway JWT authorization
+- implementing direct browser-to-S3 uploads with pre-signed URLs
+- separating document binary storage from metadata storage
+- managing CORS across API Gateway, S3, CloudFront, and browser clients
+- debugging Terraform, Lambda runtime issues, Cognito flows, and frontend integration
+- turning a conceptual architecture into a working cloud application
 
-How to Run / Reproduce
+---
+
+## How to Run / Reproduce
 
 High-level steps:
 
-Configure AWS credentials locally
-Populate terraform.tfvars
-Run Terraform from infra/terraform
-Create Cognito test users and assign groups
-Build/update frontend config with Terraform outputs
-Upload frontend files to the frontend S3 bucket
-Access the application through the CloudFront URL
+1. Configure AWS credentials locally
+2. Populate `terraform.tfvars`
+3. Run Terraform from `infra/terraform`
+4. Create Cognito test users and assign groups
+5. Build/update frontend config with Terraform outputs
+6. Upload frontend files to the frontend S3 bucket
+7. Access the application through the CloudFront URL
 
-This repository is intended as a portfolio implementation and learning project, so setup is documented at a high level rather than as a fully automated product install.
+> This repository is intended as a portfolio implementation and learning project, so setup is documented at a high level rather than as a fully automated product install.
 
-Related Portfolio Context
+---
+
+## Related Portfolio Context
 
 This implementation is the hands-on build companion to a separate architecture/design repository that documents:
 
-business scenario
-requirements
-solution architecture
-security considerations
-cost/scalability considerations
-future improvements
+- business scenario
+- requirements
+- solution architecture
+- security considerations
+- cost/scalability considerations
+- future improvements
 
 Together, the two repositories demonstrate both:
 
-architecture thinking
-practical implementation skills
+- **architecture thinking**
+- **practical implementation skills**
 
-Final Note
+---
 
-This project was built as a portfolio piece to demonstrate practical AWS Solutions Architecture, serverless development, and Terraform-based infrastructure provisioning skills through a realistic business use case.
+## Final Note
+
+This project was built as a portfolio piece to demonstrate practical **AWS Solutions Architecture**, **serverless development**, and **Terraform-based infrastructure provisioning** skills through a realistic business use case.
