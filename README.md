@@ -203,26 +203,35 @@ For deployed login testing, Cognito callback/logout URLs were configured for the
 
 ## Screenshots
 
-Add screenshots here once you capture them.
+### Cognito Login
+Amazon Cognito Hosted UI used for user authentication.
 
-Recommended screenshots:
-1. Login screen via Cognito Hosted UI
-2. Supplier view with upload form and submissions table
-3. Reviewer view with status update form
-4. Successful upload message
-5. AWS Console resources overview
-6. CloudFront-hosted frontend
-
-Example section structure:
-
-### Supplier View
-`docs/screenshots/supplier-view.png`
-
-### Reviewer View
-`docs/screenshots/reviewer-view.png`
+![Cognito Login](docs/screenshots/cognito-login.png)
 
 ### CloudFront-Hosted Frontend
-`docs/screenshots/deployed-frontend.png`
+Frontend delivered securely through CloudFront.
+
+![CloudFront-Hosted Frontend](docs/screenshots/deployed-frontend.png)
+
+### Supplier View
+Supplier view with role-based upload access.
+
+![Supplier View](docs/screenshots/supplier-view.png)
+
+### Reviewer View
+Reviewer view with access to reviewer-only status update controls.
+
+![Reviewer View](docs/screenshots/reviewer-view.png)
+
+### Reviewer View with Submission Data
+Reviewer view showing populated submissions and workflow statuses.
+
+![Reviewer Submissions](docs/screenshots/reviewer-submissions.png)
+
+### AWS Console Overview
+Selected AWS resources used in the implementation.
+
+![AWS Console Overview](docs/screenshots/aws-console-overview.png)
 
 ---
 
