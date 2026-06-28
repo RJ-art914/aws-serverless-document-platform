@@ -12,7 +12,6 @@ venv/
 
 # Terraform
 .terraform/
-.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
 crash.log
@@ -31,8 +30,13 @@ terraform.tfvars
 dist/
 build/
 node_modules/
+builds/
+
+# Local test / auth artifacts
+supplier_auth.json
+reviewer_auth.json
+upload_response.json
+sample-upload.txt
 
 # Misc
 *.log
-
-builds/
