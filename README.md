@@ -24,6 +24,14 @@ This repository contains the **working implementation** of that solution.
 
 ---
 
+## Demo Video
+
+A short walkthrough of the deployed application is available here:
+
+[Watch the demo video]https://youtu.be/WFHzW4N9XlI
+
+---
+
 ## Implemented Features
 
 ### Supplier capabilities
