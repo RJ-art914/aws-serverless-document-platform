@@ -28,7 +28,7 @@ This repository contains the **working implementation** of that solution.
 
 A short walkthrough of the deployed application is available here:
 
-[Watch the demo video]https://youtu.be/WFHzW4N9XlI
+Watch the demo video: https://youtu.be/WFHzW4N9XlI
 
 ---
 
